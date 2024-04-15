@@ -28,7 +28,7 @@ class CNCPlasmaWindow(QMainWindow):
         self.map_view.setScene(self.map_scene)
         self.layout.addWidget(self.map_view)
 
-        # Botones de control
+        #  control
         control_layout = QVBoxLayout()
 
         self.start_button = QPushButton("Iniciar")
@@ -45,20 +45,20 @@ class CNCPlasmaWindow(QMainWindow):
         control_layout.addWidget(self.zoom_in_button)
         control_layout.addWidget(self.zoom_out_button)
 
-        # Botones de desplazamiento del puntero
+        # desplazamiento del puntero
         self.move_up_button = QPushButton("^")
         self.move_down_button = QPushButton("v")
         self.move_left_button = QPushButton("<")
         self.move_right_button = QPushButton(">")
 
-        # Ajustar tamaño de los botones
+        #  tamaño de los botones
         button_size_policy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.move_up_button.setSizePolicy(button_size_policy)
         self.move_down_button.setSizePolicy(button_size_policy)
         self.move_left_button.setSizePolicy(button_size_policy)
         self.move_right_button.setSizePolicy(button_size_policy)
 
-        # Agregar los botones al layout
+        
         control_layout.addWidget(self.move_up_button)
         h_layout = QHBoxLayout()
         h_layout.addWidget(self.move_left_button)
@@ -79,11 +79,11 @@ class CNCPlasmaWindow(QMainWindow):
         self.zoom_in_button.clicked.connect(self.zoom_in)
         self.zoom_out_button.clicked.connect(self.zoom_out)
 
-        # Crear el puntero
+        # puntero
         self.pointer_item = QGraphicsEllipseItem(-5, -5, 10, 10)
         self.pointer_item.setBrush(Qt.red)
         self.map_scene.addItem(self.pointer_item)
-        self.pointer_pos = QPointF(0, 0)  # Posición inicial del puntero
+        self.pointer_pos = QPointF(0, 0)  
 
     def move_pointer(self, dx, dy):
         new_x = self.pointer_pos.x() + dx
