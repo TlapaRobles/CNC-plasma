@@ -1,12 +1,32 @@
+# Importa el módulo 'sys', necesario para algunas operaciones del sistema
 import sys
-from PyQt5.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QTextEdit, QGroupBox, QGridLayout, QGraphicsView, QGraphicsScene, QFileDialog, QAction, QApplication, QMessageBox, QDialog, QFormLayout, QLineEdit, QDialogButtonBox
+
+# Importa varias clases de PyQt5, una biblioteca para crear interfaces gráficas
+from PyQt5.QtWidgets import (
+    QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, 
+    QTextEdit, QGroupBox, QGridLayout, QGraphicsView, QGraphicsScene, 
+    QFileDialog, QAction, QApplication, QMessageBox, QDialog, 
+    QFormLayout, QLineEdit, QDialogButtonBox
+)
+
+# Importa clases de PyQt5 para manejar eventos y tiempo
 from PyQt5.QtCore import Qt, QTimer, QPointF
+
+# Importa clase de PyQt5 para trabajar con gráficos SVG
 from PyQt5.QtSvg import QGraphicsSvgItem
-from PyQt5.QtGui import QGraphicsEllipseItem
+
+# Importa minidom para trabajar con XML
 from xml.dom import minidom
+
+# Importa re para trabajar con expresiones regulares
 import re
+
+# Importa RPi.GPIO para manejar los pines GPIO de la Raspberry Pi
 import RPi.GPIO as GPIO
+
+# Importa threading para manejar hilos de ejecución en paralelo
 import threading
+
 
 # Configuración de los pines GPIO para el eje X
 XDir = 6
@@ -30,7 +50,7 @@ WORK_AREA_HEIGHT = 50
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("LinuxCNC-like Interface")
+        self.setWindowTitle("CNC- Interface")
         self.setGeometry(100, 100, 1000, 800)
         
         # Inicializar GPIO
@@ -44,13 +64,13 @@ class MainWindow(QMainWindow):
         GPIO.output(RelayPin, GPIO.LOW)  # Inicialmente apagado
         
         # Crear widgets principales
-        self.status_label = QLabel("Status: Ready")
+        self.status_label = QLabel("estado : listo")
         self.status_label.setAlignment(Qt.AlignCenter)
         
-        self.control_button_start = QPushButton("Start")
+        self.control_button_start = QPushButton("iniciar")
         self.control_button_start.clicked.connect(self.on_start_button_clicked)
         
-        self.control_button_stop = QPushButton("Stop")
+        self.control_button_stop = QPushButton("paro")
         self.control_button_stop.clicked.connect(self.on_stop_button_clicked)
         
         self.control_button_pause = QPushButton("Pause")
@@ -78,7 +98,7 @@ class MainWindow(QMainWindow):
         self.pointer = QGraphicsEllipseItem(-5, -5, 10, 10)
         self.pointer.setBrush(Qt.red)
         self.scene.addItem(self.pointer)
-        self.pointer.setZValue(1)  # Asegurarse de que el puntero esté por encima del SVG
+        self.pointer.setZValue(1)  
         self.path_points = []  # Lista de puntos del camino
         self.current_point_index = 0
         
@@ -133,7 +153,7 @@ class MainWindow(QMainWindow):
         GPIO.setup(dir_pin, GPIO.OUT)
         GPIO.setup(step_pin, GPIO.OUT)
         GPIO.setup(en_pin, GPIO.OUT)
-        GPIO.output(en_pin, GPIO.LOW)  # Activa el motor
+        GPIO.output(en_pin, GPIO.LOW)  # Activa el plasma
 
     def pulse_motor(self, dir_pin, step_pin, direction, steps, delay):
         GPIO.output(dir_pin, direction)
@@ -200,7 +220,7 @@ class MainWindow(QMainWindow):
                 self.scene.removeItem(self.svg_item)
             self.svg_item = QGraphicsSvgItem(file_name)
             self.scene.addItem(self.svg_item)
-            self.svg_item.setZValue(0)  # Asegurarse de que el SVG esté por debajo del puntero
+            self.svg_item.setZValue(0) 
             self.message_display.append(f"SVG loaded: {file_name}")
             self.extract_path_points(file_name)
     
